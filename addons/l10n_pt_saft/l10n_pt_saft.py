@@ -730,6 +730,11 @@ class wizard_saft(models.TransientModel):
         else :  
             args.append( ('type', 'in',["out_invoice","out_refund"]) ) 
             #args.append( ('journal_id.self_billing', '=', "False") )
+
+        if self.this.filter_by == 'd':
+            args.append( ('date_invoice', '>=', self.this.date_start) )
+            args.append( ('date_invoice', '<=', self.this.date_end) )
+
         invoice_obj = self.pool.get('account.invoice')
         ids = invoice_obj.search(cr, uid, args, order='internal_number')
         invoices = invoice_obj.browse(cr, uid, ids)

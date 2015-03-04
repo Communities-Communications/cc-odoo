@@ -102,7 +102,7 @@ class account_invoice(models.Model):
             gross_total = self.grosstotal(invoice.id)
             prev_hash = self.get_hash(invoice.id)
 
-            message = inv_date + ';' + str(now)[:19].replace(' ', 'T') + ';' + invoiceNo + ';' + gross_total + ';' + prev_hash
+            message = inv_date + ';' + str(now)[:19].replace(' ', 'T') + ';' + invoiceNo + ';' + gross_total #+ ';' + prev_hash
             
             signature = os.popen('echo -n "' + message + '" | openssl dgst -sha1 -sign ' + priv_key + ' | openssl enc -base64 -A', "r").read()
             self._cr.execute("UPDATE account_invoice SET hash = '%s' WHERE id = %d" % (signature, invoice.id))
